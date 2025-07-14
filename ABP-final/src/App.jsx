@@ -1,3 +1,4 @@
+import React from 'react'
 import {useEffect, useState, useRef} from 'react'
 import axios from 'axios'
 import './index.css'
@@ -30,11 +31,12 @@ function App() {
       
       <h1 className='text-3xl text-blue-600 text-center font-bold' >CATÁLOGO DE PRODUCTOS</h1>
 
-      <button className="bg-blue-800 text-white p-2 m-2 rounded" onClick={toggleDarkMode}> {!oscuro ? "Oscuro":"Claro"}</button>
+      <button className="bg-blue-800 text-white p-2 m-2 rounded" onClick={toggleDarkMode}> {oscuro ? "Claro" : "Oscuro"}</button>
 
       <input className="border p-2 m-2" type="text" placeholder='Buscar Productos' value={search} 
               onChange={(e) => setSearch(e.target.value)} />
       
+
       
       <ul className="grid grid-cols-2 md:grid-cols-4">
         {filteredProducts.map((p) => (
@@ -46,7 +48,7 @@ function App() {
         ))}
       </ul>
 
-        {filteredProducts.length === 0 && (
+      {filteredProducts.length === 0 && (
           <h2 className="text-red-500 font-bold">No se encontraron productos</h2>)}
 
       <button className="bg-blue-500 text-white p-2 m-2 rounded" onClick={() => setMostrar(!mostrar)}>
