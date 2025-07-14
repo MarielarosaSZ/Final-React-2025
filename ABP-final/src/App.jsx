@@ -9,14 +9,16 @@ function App() {
   const [products, setProducts] = useState([])
   const [mostrar, setMostrar] = useState(true)
   const [oscuro, setOscuro] = useState(false) 
+  const [pagina, setPagina] = useState(1)
 
   const containerRef = useRef(null)
   const toggleDarkMode = () => {setOscuro(!oscuro);
           containerRef.current.classList.toggle('modo-oscuro')}
-
+  
+  const limite=10
         
-  useEffect(() => {axios.get("https://dummyjson.com/products?limit=100").then(
-                  (res)=> {setProducts(res.data.products)}).catch(err => console.error(err))}, [])
+  useEffect(() => {axios.get("https://dummyjson.com/products?limit=${limite}&skip{(pag-1)*limite}").then(
+                  (res)=> {setProducts(res.data.products)}).catch(err => console.error(err))}, [pagina])
   
 
   const filteredProducts = products.filter((product) =>
@@ -36,6 +38,9 @@ function App() {
       <input className="border p-2 m-2" type="text" placeholder='Buscar Productos' value={search} 
               onChange={(e) => setSearch(e.target.value)} />
       
+      <button className="bg-amber-300"  disable={pagina === 1} onClick={()=>{setPagina(pagina-1)}} > Anterior    </button>
+      <button className="bg-amber-500"> {pagina} </button>
+      <button className="bg-amber-300" disable={filteredProducts.length <= limite} onClick={()=>{setPagina(pagina+1)}} > "     "     Siguiente</button>
 
       
       <ul className="grid grid-cols-2 md:grid-cols-4">
